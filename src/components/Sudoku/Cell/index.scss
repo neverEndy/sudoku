@@ -1,0 +1,23 @@
+.Cell-root{
+  @apply border border-gray-100 w-fit relative;
+
+  &-input{
+    @apply w-12 h-12 text-center;
+  }
+
+  &-error {
+    @apply border-red-500 bg-red-500 bg-opacity-30;
+  }
+
+  &-cheatBoard{
+    @apply absolute top-0 left-0 w-full h-full text-sm grid grid-rows-3 grid-cols-3 pointer-events-none;
+    & p{
+      @apply text-blue-600 text-opacity-30 text-center;
+    }
+  }
+
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
