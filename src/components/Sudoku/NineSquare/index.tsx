@@ -12,18 +12,18 @@ export interface INineSquareProps {
   onChange: (param: NineSquareCellData) => void
 }
 
-const validateValue = (value: INineSquareProps['value']) => {
+const isValueFormatValid = (value: INineSquareProps['value']) => {
   const has3Rows = value.length === 3
   const has3Cols = value[0]?.length === 3
   return has3Cols && has3Rows
 }
 
 const NineSquare = ({
-  value: _value,
+  value,
   onChange
 }: INineSquareProps) => {
-  const isValueValid = validateValue(_value)
-  const { forEachUnitRenderer } = useNineSquare<ICellProps['value']>(_value)
+  const isValueValid = isValueFormatValid(value)
+  const { forEachUnitRenderer } = useNineSquare<ICellProps['value']>(value)
   const handleChange = (x: number, y: number, value: ICellProps['value']) => {
     onChange({ x, y, value })
   }

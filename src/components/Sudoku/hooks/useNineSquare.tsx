@@ -45,3 +45,9 @@ const useNineSquare = <T, >(value: NineSquareValue<T>) => {
 }
 
 export default useNineSquare
+
+export class Wrapper<T> {
+  wrapped (value: NineSquareValue<T>) {
+    return useNineSquare<T>(value)
+  }
+}

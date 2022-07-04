@@ -1,39 +1,17 @@
 import React from 'react'
+import { useSudoku } from '..'
 import useNineSquare, { NineSquarePosition } from '../hooks/useNineSquare'
 import NineSquare, { NineSquareCellData } from '../NineSquare'
+import positionTransformer from '../utils/positionTransformer'
 import './index.scss'
 
-// const createSmapleValue = (): (number | '')[][] => [
-//   [1, 2, 3],
-//   [4, 5, 6],
-//   [7, 8, 9]
-// ]
-
-const createSmapleValue2 = (): (number | '')[][] => [
-  ['', '', ''],
-  ['', 5, ''],
-  ['', '', '']
-]
-
-const createSmapleValue3 = (): (number | '')[][] => [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-]
-
 const Board = () => {
-  const {
-    forEachUnitRenderer,
-    getUnitByPosition: getSquareByPosition
-  } = useNineSquare([
-    [useNineSquare(createSmapleValue3()), useNineSquare(createSmapleValue3()), useNineSquare(createSmapleValue3())],
-    [useNineSquare(createSmapleValue3()), useNineSquare(createSmapleValue2()), useNineSquare(createSmapleValue3())],
-    [useNineSquare(createSmapleValue3()), useNineSquare(createSmapleValue3()), useNineSquare(createSmapleValue3())]
-  ])
+  const { setCellValue, board } = useSudoku()
+  const { forEachUnitRenderer } = useNineSquare(board.value)
 
-  const handleUnitChange = (boardUnitPosition: NineSquarePosition, { value: num, ...position }: NineSquareCellData) => {
-    const { setUnitByPosition: setSquareCellValue } = getSquareByPosition(boardUnitPosition)
-    setSquareCellValue(position, num)
+  const handleUnitChange = (refPosition: NineSquarePosition, { value: num, ...localPosition }: NineSquareCellData) => {
+    const position = positionTransformer.toGlobal(refPosition, localPosition)
+    setCellValue(position, num)
   }
   return (
     <div className='Board-root'>
