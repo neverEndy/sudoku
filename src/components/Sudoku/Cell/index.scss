@@ -1,8 +1,12 @@
 .Cell-root{
   @apply border border-gray-100 w-fit relative;
 
+  &.selected{
+    @apply bg-blue-400;
+  }
+
   &-input{
-    @apply w-12 h-12 text-center;
+    @apply w-12 h-12 text-center bg-white bg-opacity-50;
   }
 
   &-error {
