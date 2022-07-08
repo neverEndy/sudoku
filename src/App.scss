@@ -1,2 +1,7 @@
-.App{
+.App-root{
+  @apply h-screen flex items-center;
+  background-image: url('./assets/bg.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

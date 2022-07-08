@@ -1,0 +1,35 @@
+.Cell-root{
+  @apply border border-gray-300 w-fit relative font-bold text-white;
+
+  &.focus:not( .Cell-root-input:disabled){
+    
+    .Cell-root-input{
+      @apply bg-blue-200 bg-opacity-20;
+      &:disabled{
+        @apply bg-blue-200 bg-opacity-30;
+      }
+    }
+  }
+
+  &-input{
+    @apply w-12 h-12 text-center bg-gray-300 bg-opacity-30 rounded;
+    &:disabled{
+      @apply font-extrabold text-gray-300  bg-white bg-opacity-50;
+    }
+  }
+  &-error {
+    @apply border-red-500 bg-red-500 bg-opacity-30;
+  }
+
+  &-cheatBoard{
+    @apply absolute top-0 left-0 w-full h-full text-sm grid grid-rows-3 grid-cols-3 pointer-events-none;
+    & p{
+      @apply text-blue-200 text-opacity-30 text-center;
+    }
+  }
+
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
