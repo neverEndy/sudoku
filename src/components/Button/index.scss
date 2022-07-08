@@ -1,0 +1,31 @@
+.Button-root{
+  @apply bg-blue-600 text-white m-2 px-3 py-1 rounded relative;
+  transition-duration: 0.4s;
+  &:hover {
+    @apply bg-blue-700;
+  }
+  &:focus {
+    @apply outline outline-blue-400;
+  }
+  &:active {
+    &::after{
+      @apply opacity-100;
+      transform: scale(0);
+      transition: 0s
+    }
+  }
+  &:disabled{
+    @apply pointer-events-none bg-zinc-500;
+  }
+
+  &::after{
+    content: '';
+    @apply block absolute
+    top-0 left-0 w-full h-full
+    rounded-full
+    bg-blue-300
+    opacity-0;
+    transform: scale(1);
+    transition: all 0.3s;
+  }
+}
