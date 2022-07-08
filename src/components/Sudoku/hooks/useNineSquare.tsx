@@ -20,7 +20,7 @@ export type NineSquarePosition = {
 const useNineSquare = <T, >(value: NineSquareValue<T>) => {
   const [_value, _setValue] = useState(value)
   const getUnitByPosition = ({ x, y }: NineSquarePosition) => {
-    return value[y][x]
+    return _value[y][x]
   }
   const setUnitByPosition = ({ x, y }: NineSquarePosition, val: T) => {
     const newVal = [..._value]
@@ -29,7 +29,7 @@ const useNineSquare = <T, >(value: NineSquareValue<T>) => {
     return newVal
   }
   const forEachUnitRenderer = (callback: (param: NineSquarePosition & { value: T }) => React.ReactNode) => {
-    return value.map((row, y) => (
+    return _value.map((row, y) => (
       row.map((val, x) => {
         const payload = { x, y, value: val }
         return callback(payload)

@@ -1,73 +1,62 @@
-import React, { createContext, useContext } from 'react'
+import React, { useState } from 'react'
 import Board from './Board'
-import useNineSquare, { Wrapper } from './hooks/useNineSquare'
-import positionTransformer from './utils/positionTransformer'
-import check from './utils/check'
+import Actions from './Actions'
+import { useSudoku, WithSudokuProvider } from './SudokuProvider'
 import './index.scss'
+import Popup, { IPopupProps } from '../Popup'
 
-export type SudokuGameConfig = {
-  initialSeed: number
-}
+export interface ISudokuProps {}
 
-export type SudokuBoard = ReturnType<Wrapper<ReturnType<Wrapper<number | ''>['wrapped']>>['wrapped']>
+const Sudoku = () => {
+  const {
+    extractAllCellValues,
+    solve,
+    board,
+    newStart
+    // updateGameConfig
+  } = useSudoku()
+  const [popupInfo, setPopupInfo] = useState<Omit<IPopupProps, 'onClose'>>({
+    title: '',
+    children: '',
+    open: false
+  })
 
-type SudokuContext = {
-  newStart: () => void
-  gameConfig: SudokuGameConfig
-  board: SudokuBoard
-  setCellValue: (param: { x: number, y: number }, value: number | '') => void
-}
+  const isComplete = extractAllCellValues().filter(item => typeof item !== 'string').length === 81
 
-const sudokuContext = createContext({} as SudokuContext)
-
-const defaultGameConfig: SudokuGameConfig = {
-  initialSeed: 10
-}
-
-export interface ISudokuProps {
-  gameConfig?: SudokuGameConfig
-}
-
-const createDefaultSquare = (): (number | '')[][] => [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-]
-
-const Sudoku = ({
-  gameConfig = defaultGameConfig
-}: ISudokuProps) => {
-  const board = useNineSquare([
-    [useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare())],
-    [useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare())],
-    [useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare()), useNineSquare(createDefaultSquare())]
-  ])
-
-  const newStart = () => {}
-
-  const setCellValue: SudokuContext['setCellValue'] = ({ x, y }, value) => {
-    const { refPosition, localPosition } = positionTransformer.toLocal({ x, y })
-    const square = board.getUnitByPosition(refPosition)
-    square.setUnitByPosition(localPosition, value)
-    console.log('isRulePass', check.square(square.value).isRulePass())
-    console.log('isComplete', check.square(square.value).isComplete())
+  const showPass = () => {
+    setPopupInfo(prev => ({
+      ...prev,
+      open: true,
+      title: 'Correct!',
+      children: 'you can have a new start'
+    }))
   }
 
-  const value: SudokuContext = {
-    newStart,
-    setCellValue,
-    gameConfig,
-    board
+  const showFailure = () => {
+    setPopupInfo(prev => ({
+      ...prev,
+      open: true,
+      title: 'Not Correct',
+      children: 'keep going'
+    }))
+  }
+
+  const handleSolve = () => {
+    const { isSolved } = solve()
+    isSolved ? showPass() : showFailure()
+  }
+
+  const handleNewStart = () => {
+    newStart()
   }
   return (
-    <sudokuContext.Provider value={value}>
-      <div className='Sudoku-root'>
-        <Board />
-      </div>
-    </sudokuContext.Provider>
+    <div className='Sudoku-root'>
+      <Actions
+        onSolve={handleSolve} onNewStart={handleNewStart}
+        disabledSolve={!isComplete}/>
+      <Board board={board}/>
+      <Popup {...popupInfo} onClose={() => setPopupInfo(prev => ({ ...prev, open: false }))}>{popupInfo.children}</Popup>
+    </div>
   )
 }
-
-export const useSudoku = () => useContext(sudokuContext)
-
-export default Sudoku
+export default WithSudokuProvider()(Sudoku)

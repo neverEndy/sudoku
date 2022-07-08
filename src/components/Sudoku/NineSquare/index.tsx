@@ -8,6 +8,7 @@ export type NineSquareCellData = NineSquarePosition & {
 }
 
 export interface INineSquareProps {
+  position: NineSquarePosition
   value: (ICellProps['value'])[][]
   onChange: (param: NineSquareCellData) => void
 }
@@ -19,6 +20,7 @@ const isValueFormatValid = (value: INineSquareProps['value']) => {
 }
 
 const NineSquare = ({
+  position,
   value,
   onChange
 }: INineSquareProps) => {
@@ -35,7 +37,7 @@ const NineSquare = ({
     <div className='NineSquare-root'>
       {
         forEachUnitRenderer(({ x, y, value: val }) => (
-          <Cell key={`${x}-${y}`} value={val} onChange={(val) => handleChange(x, y, val)}/>
+          <Cell refPosition={position} position={{ x, y }} key={`${x}-${y}`} value={val} onChange={(val) => handleChange(x, y, val)}/>
         ))
       }
     </div>
