@@ -6,12 +6,12 @@ import { NineSquarePosition } from '../hooks/useNineSquare'
 import positionTransformer from '../utils/positionTransformer'
 import { difference, range } from 'lodash'
 export interface ICellProps {
+  refPosition: NineSquarePosition
+  position: NineSquarePosition
   value: number | ''
   onChange: (value: ICellProps['value']) => void
   error?: boolean
   onError?: () => void
-  refPosition: NineSquarePosition
-  position: NineSquarePosition
 }
 
 const isValueValid = (val: number) => {
@@ -29,11 +29,11 @@ const isPositionsInclude = (positions: NineSquarePosition[], target: NineSquareP
 }
 
 const Cell = ({
+  refPosition,
+  position,
   value,
   onChange,
-  error = false,
-  refPosition,
-  position
+  error = false
 }: ICellProps) => {
   const cellGlobalPosition = positionTransformer.toGlobal(refPosition, position)
   const { getFocusCells, setSelectedPosition, selectedPosition, frozenPositions, gameConfig } = useSudoku()
