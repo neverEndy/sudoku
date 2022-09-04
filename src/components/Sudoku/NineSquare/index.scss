@@ -1,3 +1,5 @@
 .NineSquare-root{
-  @apply grid border border-gray-200 grid-cols-3 grid-rows-3 w-fit;;
+  @apply grid border border-blue-800 w-fit;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }

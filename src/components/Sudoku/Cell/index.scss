@@ -12,7 +12,7 @@
   }
 
   &-input{
-    @apply w-12 h-12 text-center bg-gray-300 bg-opacity-30 rounded;
+    @apply w-8 h-8 text-center bg-gray-300 bg-opacity-30 rounded;
     &:disabled{
       @apply font-extrabold text-gray-300  bg-white bg-opacity-50;
     }
